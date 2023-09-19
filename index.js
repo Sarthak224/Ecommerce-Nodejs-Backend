@@ -34,7 +34,7 @@ app.use(cors({
   
 }))
 
-mongoose.connect("mongodb+srv://madhwalsarthak:h5kvjzlBbBi04g5m@cluster0.22jne7g.mongodb.net/", {
+mongoose.connect("mongodb+srv://madhwalsarthak:h5kvjzlBbBi04g5m@cluster0.22jne7g.mongodb.net/ecommerce-db", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   family: 4,
