@@ -238,13 +238,13 @@ productRouter.post('/updateProductImage',  upload.array("productImage"),expressA
   console.log(req.files);
   var resp =  await ProductView.findByIdAndUpdate({_id:req.body.p_id},{
 
-    image: req.files.map(val=>("http://localhost:3011/products/Images/"+val.filename))
+    image: req.files.map(val=>(process.env.HOSTURL+"/products/Images/"+val.filename))
   
   })
 
   var detail_id = req.body.p_id;
     var productMetaUpdateRes = await ProductModel.findOneAndUpdate({detail_id},{
-      image:"http://localhost:3011/products/Images/"+req.files[0].filename
+      image:process.env.HOSTURL+"/products/Images/"+req.files[0].filename
     },{
     new:true
   })
