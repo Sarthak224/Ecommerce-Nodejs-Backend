@@ -11,7 +11,7 @@ const contactRouter = require('./routes/contactUsRoute')
 dotenv.config();
 
 var allowedOrigins = ['https://mern-app-frontend-alpha.vercel.app'
-                    ];
+                    ,'http://localhost'];
 
 
 
