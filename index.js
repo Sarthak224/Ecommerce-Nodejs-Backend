@@ -37,7 +37,6 @@ app.use(cors({
 mongoose.connect(process.env.URL_DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  family: 4,
 }).then(()=>{console.log("Successful")}).catch((err)=>{console.log(err)});
 
 //app.use(cors());
