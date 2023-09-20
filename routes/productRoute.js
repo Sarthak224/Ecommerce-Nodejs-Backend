@@ -23,8 +23,12 @@ for(var i=imgPath.length-1;i>=0;--i){
 
 imgPath = imgPath.substring(0,remInd) + '\\Images';
 
+console.log(imgPath)
 
 productRouter.use('/Images',express.static(imgPath))
+
+
+
 
 const expressAsyncHandler = require('express-async-handler');
 
