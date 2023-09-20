@@ -349,7 +349,13 @@ productRouter.get('/latestProducts',expressAsyncHandler(async (req, res, next) =
     // var skip = 0;
 
   var productCount  = await ProductModel.count();
-  var latestProducts = await ProductModel.find({}).skip(productCount-10);
+  var skip = productCount - 10;
+  if(productCount<10)
+  skip = 0;
+
+
+
+  var latestProducts = await ProductModel.find({}).skip(skip);
   res.json({latestProducts});
 
   }catch(e){
