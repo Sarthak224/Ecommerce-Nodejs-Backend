@@ -14,14 +14,14 @@ var imgPath=__dirname,remInd = imgPath-1;
 
 for(var i=imgPath.length-1;i>=0;--i){
 
-  if(imgPath.charAt(i)=='\\'){
+  if(imgPath.charAt(i)=='\\' || imgPath.charAt(i)=='/'){
     remInd = i;
     break;
   }
 }
 
 
-imgPath = imgPath.substring(0,remInd) + '\\Images';
+imgPath = imgPath.substring(0,remInd) + '/Images';
 
 console.log(imgPath)
 console.log(path.resolve(__dirname))
