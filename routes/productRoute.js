@@ -24,6 +24,9 @@ for(var i=imgPath.length-1;i>=0;--i){
 imgPath = imgPath.substring(0,remInd) + '\\Images';
 
 console.log(imgPath)
+console.log(path.resolve(__dirname))
+console.log(__dirname)
+
 
 productRouter.use('/Images',express.static(imgPath))
 
