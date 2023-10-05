@@ -13,6 +13,33 @@ const Product = require('../models/Product');
 const ProductView = require('../models/ProductView');
 
 
+async function reCalculateQty(arr){
+	for(var i=0;i<arr.length;++i){
+
+		var res = await ProductView.findByIdAndUpdate({_id:arr[i].product_id},{ "$inc": { "qty": -arr[i].qty } })
+		var res2 = await ProductModel.findOneAndUpdate({detail_id:arr[i].product_id},{ "$inc": { "qty": -arr[i].qty } })
+        console.log(res,res2)
+	}
+	return;
+}
+
+
+async function verifyQty(arr){
+	var isValid = true;
+	for(var i=0;i<arr.length;++i){
+
+		var res = await ProductView.findById({_id:arr[i].product_id})
+		//var res2 = await ProductView.findOne({detail_id:arr[i].product_id})
+        if(res.qty > arr[i].qty){
+            isValid = false
+		    break;
+		}
+	}
+	return isValid;
+}
+
+
+
 ordersRouter.post('/placeOrder', expressAsyncHandler(async (req, res, next) => {
  
   verifyDomain(req,res)
@@ -41,6 +68,10 @@ ordersRouter.post('/placeCodOrder', expressAsyncHandler(async (req, res, next) =
       orderDetails.order_status = "Confirmed",
       orderDetails.order_type="Cash on Delivery"
       var subtotal = 0.0;
+      if(!verifyQty(orderDetails.product_id_list)){
+        throw new Error({message:"Out of Stock"})
+      }
+      reCalculateQty(orderDetails.product_id_list)
       for(var i=0;i<orderDetails.products.length;++i){
 
       
