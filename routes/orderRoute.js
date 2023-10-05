@@ -17,7 +17,7 @@ async function reCalculateQty(arr){
 	for(var i=0;i<arr.length;++i){
 
 		var res = await ProductView.findByIdAndUpdate({_id:arr[i].product_id},{ "$inc": { "qty": -arr[i].qty } })
-		var res2 = await ProductModel.findOneAndUpdate({detail_id:arr[i].product_id},{ "$inc": { "qty": -arr[i].qty } })
+		var res2 = await Product.findOneAndUpdate({detail_id:arr[i].product_id},{ "$inc": { "qty": -arr[i].qty } })
         console.log(res,res2)
 	}
 	return;
