@@ -30,7 +30,9 @@ async function verifyQty(arr){
 
 		var res = await ProductView.findById({_id:arr[i].product_id})
 		//var res2 = await ProductView.findOne({detail_id:arr[i].product_id})
-        if(res.qty > arr[i].qty){
+    console.log(res.qty)
+    console.log(arr[i])
+        if(res.qty < arr[i].qty){
             isValid = false
 		    break;
 		}

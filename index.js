@@ -8,10 +8,12 @@ const dotenv = require('dotenv');
 const ordersRouter = require("./routes/orderRoute");
 const userRouter = require("./routes/userRoute");
 const contactRouter = require('./routes/contactUsRoute')
+const cartRouter = require('./routes/cart')
+
 dotenv.config();
 
 var allowedOrigins = ['https://mern-app-frontend-alpha.vercel.app'
-                    ,'http://localhost'];
+                    ];
 
 
 
@@ -46,6 +48,7 @@ app.use('/api/payment',paymentRoute)
 app.use('/api/orders',ordersRouter)
 app.use('/api/users',userRouter)
 app.use('/api/contact-us',contactRouter)
+app.use('/api/cart',cartRouter)
 
 
 
