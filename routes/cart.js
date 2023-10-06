@@ -44,7 +44,7 @@ cartRouter.post('/verifyCart', expressAsyncHandler(async (req, res, next) => {
 
     try{
      var data = verifyQty(req.body.product_id_list);
-     res.json({data});
+     res.json({...data});
     }
     catch(e){
       res.status(500).send(e)
