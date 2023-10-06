@@ -70,6 +70,8 @@ ordersRouter.post('/placeCodOrder', expressAsyncHandler(async (req, res, next) =
       orderDetails.order_status = "Confirmed",
       orderDetails.order_type="Cash on Delivery"
       var subtotal = 0.0;
+      console.log(orderDetails.product_id_list)
+
       if(!verifyQty(orderDetails.product_id_list)){
         throw new Error({message:"Out of Stock"})
       }

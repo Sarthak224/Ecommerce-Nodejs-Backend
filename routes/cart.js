@@ -18,19 +18,23 @@ const ProductView = require('../models/ProductView');
 async function verifyQty(arr){
 	var isValid = true;
     verifiedProductMapping = {};
+    console.log(arr);
 	for(var i=0;i<arr.length;++i){
 
 		var res = await ProductView.findById({_id:arr[i].product_id})
 		//var res2 = await ProductView.findOne({detail_id:arr[i].product_id})
-        if(res.qty > arr[i].qty){
-          verifiedProductMapping[arr[i].product_id] = false;
+        if(res.qty < arr[i].qty){
+          console.log("got")
+          verifiedProductMapping[""+arr[i].product_id] = false;
 		}
         else
-        verifiedProductMapping[arr[i].product_id] = true;
+        verifiedProductMapping[""+arr[i].product_id] = true;
 
 	}
+  // console.log(verifiedProductMapping)
 	return verifiedProductMapping;
 }
+
 
 
 
@@ -39,7 +43,7 @@ cartRouter.post('/verifyCart', expressAsyncHandler(async (req, res, next) => {
   verifyDomain(req,res)
 
     try{
-     var data = verifyQty();
+     var data = verifyQty(req.body.product_id_list);
      res.json({data});
     }
     catch(e){
