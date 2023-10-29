@@ -12,9 +12,7 @@ const cartRouter = require('./routes/cart')
 
 dotenv.config();
 
-var allowedOrigins = ['https://mern-app-frontend-alpha.vercel.app'
-                    ];
-
+var allowedOrigins = ['https://www.vinkeebhasiinceramics.com','https://vinkeebhasiinceramics.com'];
 
 
 app.use(cors({
