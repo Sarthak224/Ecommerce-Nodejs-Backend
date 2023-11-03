@@ -13,6 +13,14 @@ const Product = require('../models/Product');
 const ProductView = require('../models/ProductView');
 
 
+
+function getCurrentDateForOrder(){
+
+var today = new Date().toDateString()
+
+return today;
+}
+
 async function reCalculateQty(arr){
 	for(var i=0;i<arr.length;++i){
 
@@ -50,7 +58,7 @@ ordersRouter.post('/placeOrder', expressAsyncHandler(async (req, res, next) => {
       var orderDetails = req.body;
       orderDetails.order_status = "Confirmed"
       orderDetails.order_type="Online"
-
+      orderDetails.date = getCurrentDateForOrder();
       var response = await Orders.create(orderDetails);
       res.send(response)
     }
@@ -69,6 +77,7 @@ ordersRouter.post('/placeCodOrder', expressAsyncHandler(async (req, res, next) =
       var orderDetails = req.body;
       orderDetails.order_status = "Confirmed",
       orderDetails.order_type="Cash on Delivery"
+      orderDetails.date = getCurrentDateForOrder();
       var subtotal = 0.0;
       console.log(orderDetails.product_id_list)
 
@@ -164,7 +173,19 @@ ordersRouter.post('/createCoupon', expressAsyncHandler(async (req, res, next) =>
 }))
 
 
-
+ordersRouter.get('/clientOrders', expressAsyncHandler(async (req, res, next) => {
+  verifyDomain(req,res)
+   try{
+    var email = req.query.email;
+     var orderRes = await Orders.find({email});
+    // var response = await Orders.find({}).skip(skip).limit(limit);
+     res.send(orderRes)
+   }
+   catch(e){
+     res.status(500).send(e)
+   }
+ 
+ }))
 
 
 module.exports = ordersRouter;

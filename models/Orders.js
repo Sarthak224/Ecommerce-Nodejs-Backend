@@ -14,7 +14,9 @@ subtotal:{type:Number},
 products:{type:Object},
 payment_details:{type:Object},
 order_status:{type:String},
-order_type:{type:String}
+order_type:{type:String},
+date:{type:String}
+
 });
 
     
