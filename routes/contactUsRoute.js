@@ -2,16 +2,32 @@ const express = require('express');
 const Admins = require('../models/Admins')
 const mongoose = require('mongoose')
 const multer  = require('multer')
-const {verifyDomain} = require('../utils')
-const jwt = require('jsonwebtoken');
+const {verifyDomain, generateAccessToken, authenticateToken} = require('../utils')
 var contactRouter = express.Router();
 const expressAsyncHandler = require('express-async-handler');
 
 
 //Create img path
 
+
+
+
+
+
 const nodemailer = require("nodemailer");
 const UserMeta = require('../models/UserMeta');
+
+
+
+
+
+
+
+
+
+
+
+
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -61,6 +77,7 @@ try{
 contactRouter.post('/verifyEmail', expressAsyncHandler(async (req, res, next) => {
 
   try{
+    
      
     var {email} = req.body;
      
@@ -101,8 +118,11 @@ contactRouter.post('/verifyEmail', expressAsyncHandler(async (req, res, next) =>
       var res1 = await UserMeta.findOne({email,otp});
 
       if(res1 && (parseInt(res1.timestamp)+(900000 ))>Date.now()){
-        res.json({msg:"Verified Successfullly",success:true})
+        const token = generateAccessToken({email},'30d');
+
+        res.json({msg:"Verified Successfullly",success:true,token})
       }
+
       res.status(401).json({msg:"Verification Failed",success:false})
 
 
@@ -114,9 +134,23 @@ contactRouter.post('/verifyEmail', expressAsyncHandler(async (req, res, next) =>
     }
     
     }))
-    console.log("")
   
 
+
+    contactRouter.post('/verifyEmailToken',authenticateToken, expressAsyncHandler(async (req, res, next) => {
+
+      try{
+       
+        res.json({msg:"Already Logged n user"})
+         
+      
+      }catch(e){
+          
+          res.status(500).send(e);
+      
+      }
+      
+      }))
 
 
 module.exports = contactRouter;
