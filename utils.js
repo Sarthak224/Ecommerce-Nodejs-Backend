@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const UserSession = require('./models/UserSession');
 
  
  
@@ -24,21 +25,41 @@ function generateAccessToken(userData,expiresIn) {
   
     if (token == null) return res.sendStatus(401)
   
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
       console.log(err)
   
       if (err) return res.sendStatus(403)
   
-      console.log(user);
+      //console.log(user);
       req.user = user
-  
+      if(req.body.checkUserSession){
+      if(await getUserSession(req.body.email,token)){ 
       next()
+      }
+      else
+      return res.sendStatus(401);
+      }
+      else
+      next()
+
     })
   }
   
 
 
 
+ async function getUserSession(email,token){
+  console.log({email,token})
+    var resp = await UserSession.find({email,token});
+
+    console.log(resp)
+    if(resp.length <= 0){
+
+      return false;
+    }
+  else
+  return true;
+  }
 
 
 

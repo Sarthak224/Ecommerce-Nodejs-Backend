@@ -16,6 +16,7 @@ const expressAsyncHandler = require('express-async-handler');
 
 const nodemailer = require("nodemailer");
 const UserMeta = require('../models/UserMeta');
+const UserSession = require('../models/UserSession');
 
 
 
@@ -119,6 +120,8 @@ contactRouter.post('/verifyEmail', expressAsyncHandler(async (req, res, next) =>
 
       if(res1 && (parseInt(res1.timestamp)+(900000 ))>Date.now()){
         const token = generateAccessToken({email},'30d');
+        res1 = await UserSession.deleteMany({email});
+        res1 = await UserSession.create({token,email});
 
         res.json({msg:"Verified Successfullly",success:true,token})
       }
@@ -140,8 +143,12 @@ contactRouter.post('/verifyEmail', expressAsyncHandler(async (req, res, next) =>
     contactRouter.post('/verifyEmailToken',authenticateToken, expressAsyncHandler(async (req, res, next) => {
 
       try{
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        var session = UserSession.findOne({token});
+
        
-        res.json({msg:"Already Logged n user"})
+        res.json({msg:"Already Logged n user",email:session.email})
          
       
       }catch(e){
